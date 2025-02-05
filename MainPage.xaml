@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="MauiRobotoAndSanFrancisco.MainPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+
+    <VerticalStackLayout Spacing="10">
+        <Label TextColor="Coral" Text="Note, San Francisco Font will only display correctly on IOS"/>
+
+        <Grid ColumnDefinitions="*,*">
+            <VerticalStackLayout Grid.Column="0" Spacing="10">
+                <Label FontFamily=".SFUI-Ultralight" Text="This is SFUI-Ultralight" />
+                <Label FontFamily=".SFUI-Thin" Text="This is SFUI-Thin" />
+                <Label FontFamily=".SFUI-Light" Text="This is SFUI-Light" />
+                <Label FontFamily=".SFUI-Regular" Text="This is SFUI-Regular" />
+                <Label FontFamily=".SFUI-Medium" Text="This is SFUI-Medium" />
+                <Label FontFamily=".SFUI-Semibold" Text="This is SFUI-Semibold" />
+                <Label FontFamily=".SFUI-Bold" Text="This is SFUI-Bold" />
+                <Label FontFamily=".SFUI-Heavy" Text="This is SFUI-Heavy" />
+                <Label FontFamily=".SFUI-Black" Text="This is SFUI-Black" />
+            </VerticalStackLayout>
+            <VerticalStackLayout Grid.Column="1" Spacing="10">
+                <Label FontFamily="RobotoThin" Text="This is RobotoThin" />
+                <Label FontFamily="RobotoExtraLight" Text="This is RobotoExtraLight" />
+                <Label FontFamily="RobotoLight" Text="This is RobotoLight" />
+                <Label FontFamily="RobotoRegular" Text="This is RobotoRegular" />
+                <Label FontFamily="RobotoMedium" Text="This is RobotoMedium" />
+                <Label FontFamily="RobotoSemiBold" Text="This is RobotoSemiBold" />
+                <Label FontFamily="RobotoBold" Text="This is RobotoBold" />
+                <Label FontFamily="RobotoExtraBold" Text="This is RobotoExtraBold" />
+                <Label FontFamily="RobotoBlack" Text="This is RobotoBlack" />
+            </VerticalStackLayout>
+        </Grid>
+    </VerticalStackLayout>
+
+</ContentPage>
