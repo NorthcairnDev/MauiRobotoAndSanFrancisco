@@ -3,7 +3,7 @@
 
 name: Northcairn .NET MAUI Build
 env:
-  MOBILE_PROJECT_NAME: 'MauiRobotoAndSanFrancisco'
+  MOBILE_PROJECT_NAME: 'MauiRobotoAndSanFrancisco.csproj'
   MODEL_TESTS_PROJECT_NAME: 'NA'
   VIEWMODEL_TESTS_PROJECT_NAME: 'NA'
   INCLUDE_MODEL_TESTS: ${{ false }}
