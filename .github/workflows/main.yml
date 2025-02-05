@@ -41,7 +41,7 @@ jobs:
       if: ${{env.INCLUDE_MODEL_TESTS == 'true'}}
       run: dotnet test $MODEL_TESTS_PROJECT_NAME --verbosity normal
     - name: Test ViewModel
-      if: ${{env.INCLUDE_VIEWMODEL_TESTS == 'false'}}
+      if: ${{env.INCLUDE_VIEWMODEL_TESTS == 'true'}}
       run: dotnet test $VIEWMODEL_TESTS_PROJECT_NAME --verbosity normal
 
 
