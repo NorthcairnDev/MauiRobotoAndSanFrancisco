@@ -1,0 +1,79 @@
+# This workflow will build a .NET project
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
+
+name: Northcairn .NET MAUI Build
+env:
+  MOBILE_PROJECT_NAME: 'MauiRobotoAndSanFrancisco'
+  MODEL_TESTS_PROJECT_NAME: 'NA'
+  VIEWMODEL_TESTS_PROJECT_NAME: 'NA'
+  INCLUDE_MODEL_TESTS: ${{ false }}
+  INCLUDE_VIEWMODEL_TESTS: ${{ false }}
+  INCLUDE_IPHONE_SIMULATOR_BUILD: ${{ false }}
+  INCLUDE_IPAD_SIMULATOR_BUILD: ${{ false }}
+  INCLUDE_ANDROID_SIMULATOR_BUILD: ${{ false }}
+  INCLUDE_ANDROID_DEVICE_BUILD: ${{ false }}
+  INCLUDE_IPHONE_DEVICE_BUILD: ${{ true }}
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+jobs:
+  build:
+    runs-on: self-hosted
+    
+    steps:
+    - uses: actions/checkout@v4
+ 
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 9.x.x
+    
+    - name: Install .NET Maui
+      run: dotnet workload install maui 
+    
+    - name: Restore dependencies
+      run: dotnet restore
+
+    - name: Test Model
+      if: ${{env.INCLUDE_MODEL_TESTS == 'true'}}
+      run: dotnet test $MODEL_TESTS_PROJECT_NAME --verbosity normal
+    - name: Test ViewModel
+      if: ${{env.INCLUDE_VIEWMODEL_TESTS == 'false'}}
+      run: dotnet test $VIEWMODEL_TESTS_PROJECT_NAME --verbosity normal
+
+
+    - name: Build and run on iPhone Simulator
+      if: ${{env.INCLUDE_IPHONE_SIMULATOR_BUILD == 'true'}}
+      run:  dotnet build $MOBILE_PROJECT_NAME -t:Run -f net9.0-ios -p:_DeviceName=:v2:udid=B7833B9E-BFA4-4CFE-9C0B-B571F760643C
+      timeout-minutes: 1
+      continue-on-error: true
+    
+    - name: Build and run iPad (10th generation) Simulator (iOS 18)
+      if: ${{env.INCLUDE_IPAD_SIMULATOR_BUILD == 'true'}}
+      run:  dotnet build $MOBILE_PROJECT_NAME -t:Run -f net9.0-ios -p:_DeviceName=:v2:udid=02936343-1C00-4FD8-8C25-48400F6F167F
+      timeout-minutes: 4
+      continue-on-error: true
+
+    - name: Build and run on Android Simulator.
+      if: ${{env.INCLUDE_ANDROID_SIMULATOR_BUILD == 'true'}}
+      run:  dotnet build $MOBILE_PROJECT_NAME -t:Run -f net9.0-android -p:AdbTarget=-s%20emulator-5554 -p:AndroidSdkDirectory='/Volumes/External/Android' -p:JavaSdkDirectory='/Library/Java/JavaVirtualMachines/microsoft-17.jdk/Contents/Home' 
+      timeout-minutes: 5
+      continue-on-error: true
+
+    - name: Build and run Tim Android
+      if: ${{env.INCLUDE_ANDROID_DEVICE_BUILD == 'true'}}
+      run:  dotnet build $MOBILE_PROJECT_NAME -t:Run -f net9.0-android -p:AdbTarget=-s%20ZY22FJX964 -p:AndroidSdkDirectory='/Volumes/External/Android' -p:JavaSdkDirectory='/Library/Java/JavaVirtualMachines/microsoft-17.jdk/Contents/Home' 
+      timeout-minutes: 5
+      continue-on-error: true
+
+    - name: Build and run on Tim iPhone
+      if: ${{env.INCLUDE_IPHONE_DEVICE_BUILD == 'true'}}
+      run:  dotnet build $MOBILE_PROJECT_NAME -t:Run -f net9.0-ios -p:RuntimeIdentifier=ios-arm64 -p:_DeviceName=00008130-0001692C0142001C
+# https://developercommunity.visualstudio.com/t/Could-not-find-MicrosoftiOS/10765914?pageSize=15&sort=active&topics=fixed+in%3A+visual+studio+2019+version+16.2
+#      run:  dotnet build $MOBILE_PROJECT_NAME -t:Run -f net9.0-ios -p:RuntimeIdentifier=ios-arm64 -p:_DeviceName=00008130-0001692C0142001C -c:Release -p:_ExportSymbolsExplicitly=false 
+      timeout-minutes: 4
+#      timeout-minutes: 10
+      continue-on-error: true
